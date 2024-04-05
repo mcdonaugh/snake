@@ -560,6 +560,8 @@ MonoBehaviour:
   _startView: {fileID: 1114196261}
   _gameView: {fileID: 470372194}
   _gameOverView: {fileID: 1258305080}
+  _foodController: {fileID: 8688887037537533542, guid: 3cb2ad3492519492ba41a73b38b456a2, type: 3}
+  _snakeController: {fileID: 876525273899453344, guid: 8d2efe14d72454a04a97de1b60f163cd, type: 3}
   _isGameStarted: 0
 --- !u!4 &296722373
 Transform:
@@ -1574,7 +1576,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
@@ -1673,7 +1675,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.6, g: 0.6862745, b: 0.007843138, a: 1}
   m_FlipX: 0

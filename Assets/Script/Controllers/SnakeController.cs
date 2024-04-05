@@ -9,14 +9,15 @@ namespace Snake.Controllers
         [SerializeField] private GameObject _snakeTail;
         private GameObject[] _snakeTailArray;
         private Vector2 _previousHeadPosition;
+        private Vector2 _originPosition = Vector2.zero;
 
         private void Awake()
         {
             _snakeTailArray = new GameObject[315];
         }
+
         private void Start()
         {
-            transform.position = Vector2.zero;
             StartCoroutine(GameTick());
         }
 
@@ -34,6 +35,11 @@ namespace Snake.Controllers
             }
         }
         
+        public void SpawnSnake()
+        {    
+            Instantiate(gameObject, _originPosition, Quaternion.identity);
+        }
+
         private void GrowTail()
         {
             GameObject newSnakeTail = Instantiate(_snakeTail, transform.position, Quaternion.identity, transform.parent);
@@ -65,7 +71,6 @@ namespace Snake.Controllers
                 }
             }
         }
-
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -99,11 +104,10 @@ namespace Snake.Controllers
             }
         }
 
-        private void ResetSnake()
-        {
-            gameObject.SetActive(false);
-            transform.position = Vector2.zero;
-        }
+        // public void ResetSnake()
+        // {
+        //     gameObject.SetActive(false);
+        // }
         
     }    
 }

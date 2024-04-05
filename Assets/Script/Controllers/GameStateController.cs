@@ -9,6 +9,7 @@ namespace Snake.Controllers
         [SerializeField] private GameView _gameView;
         [SerializeField] private GameOverView _gameOverView;
         [SerializeField] private FoodController _foodController;
+        [SerializeField] private SnakeController _snakeController;
   
         public bool _isGameStarted;
         private int Score;
@@ -37,7 +38,7 @@ namespace Snake.Controllers
                 _gameView.gameObject.SetActive(true);
                 _gameOverView.gameObject.SetActive(false);
                 _foodController.SpawnFood();
-
+                _snakeController.SpawnSnake();
             }
             Debug.Log("Game Started");
         }
@@ -50,6 +51,8 @@ namespace Snake.Controllers
                 _startView.gameObject.SetActive(false);
                 _gameView.gameObject.SetActive(false);
                 _gameOverView.gameObject.SetActive(true);
+                _foodController.DespawnFood();
+                // _snakeController.ResetSnake();
             }
             Debug.Log("Game Ended");
         }
