@@ -1,6 +1,5 @@
 using Snake.Views;
 using UnityEngine;
-using UnityEngine.XR;
 
 namespace Snake.Controllers
 {
@@ -9,7 +8,10 @@ namespace Snake.Controllers
         [SerializeField] private StartView _startView;
         [SerializeField] private GameView _gameView;
         [SerializeField] private GameOverView _gameOverView;
-        private bool _isGameStarted;
+        [SerializeField] private FoodController _foodController;
+  
+        public bool _isGameStarted;
+        private int Score;
 
         private void Awake()
         {
@@ -34,6 +36,7 @@ namespace Snake.Controllers
                 _startView.gameObject.SetActive(false);
                 _gameView.gameObject.SetActive(true);
                 _gameOverView.gameObject.SetActive(false);
+                _foodController.SpawnFood();
 
             }
             Debug.Log("Game Started");
