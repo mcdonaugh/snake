@@ -33,10 +33,10 @@ namespace Snake.Controllers
                 ChangeDirection(snakeDirection);
             }
         }
-
-        private void SpawnTail()
+        
+        private void GrowTail()
         {
-            GameObject newSnakeTail = Instantiate(_snakeTail, transform.position, Quaternion.identity);
+            GameObject newSnakeTail = Instantiate(_snakeTail, transform.position, Quaternion.identity, transform.parent);
 
             for (int i = 0; i < _snakeTailArray.Length; i++)
             {
@@ -71,11 +71,10 @@ namespace Snake.Controllers
         {
             if (other.gameObject.tag == "Food")
             {
-                SpawnTail();
+                GrowTail();
             }
         }
         
-
         private void MoveHead()
         {
             _previousHeadPosition = transform.position;      
@@ -98,6 +97,12 @@ namespace Snake.Controllers
                 MoveTail();
                 yield return new WaitForSeconds(_gameTickTime);
             }
+        }
+
+        private void ResetSnake()
+        {
+            gameObject.SetActive(false);
+            transform.position = Vector2.zero;
         }
         
     }    
