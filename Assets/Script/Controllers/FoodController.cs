@@ -1,18 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class FoodController : MonoBehaviour
+namespace Snake.Controllers
 {
-    // Start is called before the first frame update
-    void Start()
+    public class FoodController : MonoBehaviour
     {
-        
-    }
+        private void Start()
+        {
+            RandomizePosition();
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        private void RandomizePosition()
+        {
+            transform.position = new Vector2(Random.Range(-10,10),Random.Range(-7,7));
+        }
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            RandomizePosition();
+        }
+    }  
 }
