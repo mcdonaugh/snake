@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Snake.Controllers
@@ -12,28 +13,46 @@ namespace Snake.Controllers
 
         public void SpawnFood()
         {
-            Debug.Log("Food Spawned");
-            _newFood = Instantiate(_foodController, transform.position, Quaternion.identity);
+
+            if(_newFood == null)
+            {
+                _newFood = Instantiate(_foodController, transform.position, Quaternion.identity);   
+            }
+            else
+            {
+                _newFood.gameObject.SetActive(true);  
+            }  
         }
 
         public void DespawnFood()
         {
             _newFood.gameObject.SetActive(false);
-            Debug.Log("Food Despawned");
         }
 
         public void SpawnSnake()
         {   
-            transform.position = _originPosition; 
-            _snakeHead = Instantiate(_snakeController, _originPosition, Quaternion.identity);
+            
+            transform.position = _originPosition;
+
+            if (_snakeHead == null)
+            {
+                _snakeHead = Instantiate(_snakeController, _originPosition, Quaternion.identity); 
+            }
+            else
+            {
+                _snakeHead.gameObject.SetActive(true);
+            }
+
+            StartCoroutine(_snakeHead.GameTick());
+            
         }
 
         public void DespawnSnake()
         {
-
-            Debug.Log("Despawn Snake");
             _snakeHead.gameObject.SetActive(false);
-            
+            _snakeHead.gameObject.transform.position = _originPosition;
+            StopCoroutine(_snakeHead.GameTick());
+            _snakeHead.DespawnTail();
         }
     }
 }

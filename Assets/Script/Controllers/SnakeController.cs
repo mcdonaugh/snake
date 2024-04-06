@@ -15,11 +15,6 @@ namespace Snake.Controllers
             _snakeTailArray = new GameObject[315];
         }
 
-        private void Start()
-        {
-            StartCoroutine(GameTick());
-        }
-
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.A))
@@ -36,14 +31,17 @@ namespace Snake.Controllers
 
         private void GrowTail()
         {
-            GameObject newSnakeTail = Instantiate(_snakeTail, transform.position, Quaternion.identity, transform.parent);
-
             for (int i = 0; i < _snakeTailArray.Length; i++)
             {
                 if (_snakeTailArray[i] == null)
                 {
+                    GameObject newSnakeTail = Instantiate(_snakeTail, transform.position, Quaternion.identity, transform.parent);
                     _snakeTailArray[i] = newSnakeTail;
                     break;
+                }
+                else
+                {
+                    _snakeTailArray[i].SetActive(true);
                 }
             }
         }
@@ -62,6 +60,18 @@ namespace Snake.Controllers
                     Vector2 ParentPosition = _snakeTailArray[i-1].transform.position;
                     _snakeTailArray[i].transform.position = ParentPosition;
                 }
+            }
+        }
+
+        public void DespawnTail()
+        {
+            foreach (var item in _snakeTailArray)
+            {
+                if(item != null)
+                {
+                    item.SetActive(false);
+                }
+                
             }
         }
 
@@ -84,12 +94,11 @@ namespace Snake.Controllers
             transform.eulerAngles += new Vector3(0,0,direction);
         }
         
-        private IEnumerator GameTick()
+        public IEnumerator GameTick()
         {
             while(true)
             {
-                MoveHead();
-                
+                MoveHead();      
                 MoveTail();
                 yield return new WaitForSeconds(_gameTickTime);
             }
