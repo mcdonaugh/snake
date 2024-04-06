@@ -9,6 +9,7 @@ namespace Snake.Controllers
         [SerializeField] private GameObject _snakeTail;
         private GameObject[] _snakeTailArray;
         private Vector2 _previousHeadPosition;
+        public bool _snakeIsMoving;
 
         private void Awake()
         {
@@ -70,8 +71,7 @@ namespace Snake.Controllers
                 if(item != null)
                 {
                     item.SetActive(false);
-                }
-                
+                }    
             }
         }
 
@@ -96,7 +96,7 @@ namespace Snake.Controllers
         
         public IEnumerator GameTick()
         {
-            while(true)
+            while(_snakeIsMoving)
             {
                 MoveHead();      
                 MoveTail();

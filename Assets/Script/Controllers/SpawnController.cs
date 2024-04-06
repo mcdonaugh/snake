@@ -43,13 +43,16 @@ namespace Snake.Controllers
                 _snakeHead.gameObject.SetActive(true);
             }
 
+            Debug.Log(_snakeHead._snakeIsMoving);
+            _snakeHead._snakeIsMoving = true;
             StartCoroutine(_snakeHead.GameTick());
-            
         }
 
         public void DespawnSnake()
         {
+            Debug.Log(_snakeHead._snakeIsMoving);
             _snakeHead.gameObject.SetActive(false);
+            _snakeHead._snakeIsMoving = false;
             _snakeHead.gameObject.transform.position = _originPosition;
             StopCoroutine(_snakeHead.GameTick());
             _snakeHead.DespawnTail();
