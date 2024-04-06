@@ -8,19 +8,18 @@ namespace Snake.Controllers
         [SerializeField] private StartView _startView;
         [SerializeField] private GameView _gameView;
         [SerializeField] private GameOverView _gameOverView;
-        [SerializeField] private FoodController _foodController;
-        [SerializeField] private SnakeController _snakeController;
-  
-        public bool _isGameStarted;
+        [SerializeField] private SpawnController _spawnController;
+        private bool _gameIsActive;
         private int Score;
+
 
         private void Awake()
         {
             _startView.gameObject.SetActive(true);
             _gameView.gameObject.SetActive(false);
             _gameOverView.gameObject.SetActive(false);
-            Debug.Log(_isGameStarted);
         }
+        
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -31,29 +30,23 @@ namespace Snake.Controllers
 
         private void StartGame()
         {
-            if(!_isGameStarted)
-            {
-                _isGameStarted = true;
-                _startView.gameObject.SetActive(false);
-                _gameView.gameObject.SetActive(true);
-                _gameOverView.gameObject.SetActive(false);
-                _foodController.SpawnFood();
-                _snakeController.SpawnSnake();
-            }
+            _gameIsActive = true;
+            _startView.gameObject.SetActive(false);
+            _gameView.gameObject.SetActive(true);
+            _gameOverView.gameObject.SetActive(false);
+            _spawnController.SpawnFood();
+            _spawnController.SpawnSnake();
             Debug.Log("Game Started");
         }
 
         private void EndGame()
         {
-            if (_isGameStarted)
-            {
-                _isGameStarted = false;
-                _startView.gameObject.SetActive(false);
-                _gameView.gameObject.SetActive(false);
-                _gameOverView.gameObject.SetActive(true);
-                _foodController.DespawnFood();
-                // _snakeController.ResetSnake();
-            }
+            _gameIsActive = false;
+            _startView.gameObject.SetActive(false);
+            _gameView.gameObject.SetActive(false);
+            _gameOverView.gameObject.SetActive(true);
+            _spawnController.DespawnFood();  
+            _spawnController.DespawnSnake();
             Debug.Log("Game Ended");
         }
 
@@ -65,19 +58,24 @@ namespace Snake.Controllers
             Debug.Log("Restarted");
         }
 
+        private void OnDisable()
+        {
+        Debug.Log("Object was disabled here");
+        }
+
         private void ChangeGameState()
         {
-            if (_startView.gameObject.activeInHierarchy == true)
+            if (!_gameIsActive && _gameOverView.gameObject.activeInHierarchy == true)
             {
-                StartGame();
+                RestartGame();
             }
-            else if (_gameView.gameObject.activeInHierarchy == true)
+            else if (_gameIsActive)
             {
                 EndGame();
             }
-            else if (_gameOverView.gameObject.activeInHierarchy == true)
+            else
             {
-                RestartGame();
+                StartGame();
             }
         } 
     }  

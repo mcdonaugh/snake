@@ -9,7 +9,6 @@ namespace Snake.Controllers
         [SerializeField] private GameObject _snakeTail;
         private GameObject[] _snakeTailArray;
         private Vector2 _previousHeadPosition;
-        private Vector2 _originPosition = Vector2.zero;
 
         private void Awake()
         {
@@ -34,11 +33,6 @@ namespace Snake.Controllers
                 ChangeDirection(snakeDirection);
             }
         }
-        
-        public void SpawnSnake()
-        {    
-            Instantiate(gameObject, _originPosition, Quaternion.identity);
-        }
 
         private void GrowTail()
         {
@@ -49,7 +43,6 @@ namespace Snake.Controllers
                 if (_snakeTailArray[i] == null)
                 {
                     _snakeTailArray[i] = newSnakeTail;
-                    Debug.Log(_snakeTailArray[i]);
                     break;
                 }
             }
@@ -96,18 +89,11 @@ namespace Snake.Controllers
             while(true)
             {
                 MoveHead();
-                Debug.Log(transform.position);
-                Debug.Log(_previousHeadPosition);
                 
                 MoveTail();
                 yield return new WaitForSeconds(_gameTickTime);
             }
         }
-
-        // public void ResetSnake()
-        // {
-        //     gameObject.SetActive(false);
-        // }
         
     }    
 }
