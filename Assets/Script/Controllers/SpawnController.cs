@@ -48,7 +48,6 @@ namespace Snake.Controllers
 
         public void DespawnSnake()
         {
-            Debug.Log(_snakeHead._snakeIsMoving);
             _snakeHead.gameObject.SetActive(false);
             _snakeHead._snakeIsMoving = false;
             _snakeHead.gameObject.transform.position = _originPosition;

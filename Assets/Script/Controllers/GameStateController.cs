@@ -36,7 +36,6 @@ namespace Snake.Controllers
             _gameOverView.gameObject.SetActive(false);
             _spawnController.SpawnFood();
             _spawnController.SpawnSnake();
-            Debug.Log("Game Started");
         }
 
         private void EndGame()
@@ -47,7 +46,6 @@ namespace Snake.Controllers
             _gameOverView.gameObject.SetActive(true);
             _spawnController.DespawnFood();  
             _spawnController.DespawnSnake();
-            Debug.Log("Game Ended");
         }
 
         private void RestartGame()
@@ -55,12 +53,6 @@ namespace Snake.Controllers
             _startView.gameObject.SetActive(true);
             _gameView.gameObject.SetActive(false);
             _gameOverView.gameObject.SetActive(false);
-            Debug.Log("Restarted");
-        }
-
-        private void OnDisable()
-        {
-        Debug.Log("Object was disabled here");
         }
 
         private void ChangeGameState()

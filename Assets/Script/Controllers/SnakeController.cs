@@ -28,6 +28,14 @@ namespace Snake.Controllers
             Vector3 roundedPosition = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y),Mathf.RoundToInt(transform.position.z));
             transform.position = roundedPosition;
 
+            if (_currentTime > _gameTickTime)
+            {
+                MoveHead();      
+                MoveTail();
+                _currentTime = 0;
+            }
+            _currentTime += Time.deltaTime;
+
             if (Input.GetKeyDown(KeyCode.A))
             {
                 int snakeDirection = 90;
@@ -40,18 +48,6 @@ namespace Snake.Controllers
             }
 
             BoundsCheck();
-        }
-
-        private void LateUpdate()
-        {
-            if (_currentTime > _gameTickTime)
-            {
-                Debug.Log("tick");
-                MoveHead();      
-                MoveTail();
-                _currentTime = 0;
-            }
-            _currentTime += Time.deltaTime;
         }
 
         private void GrowTail()
@@ -121,22 +117,18 @@ namespace Snake.Controllers
         {
             if(transform.position.x == _xBounds + 1)
             {   
-                Debug.Log("Right Bounds Hit");
                 transform.position = new Vector3(-_xBounds, transform.position.y, 0);
             }
             else if (transform.position.x == -_xBounds - 1)
             {
-                Debug.Log("Left Bounds Hit");
                 transform.position = new Vector3(_xBounds, transform.position.y, 0);
             }
             else if(transform.position.y == _yBounds + 1)
             {
-                Debug.Log("Top Bounds Hit");
                 transform.position = new Vector3(transform.position.x, -_yBounds, 0);
             }
             else if(transform.position.y == -_yBounds - 1)
             {
-                Debug.Log("Bottom Bounds Hit");
                 transform.position = new Vector3(transform.position.x, _yBounds, 0);
             }
         }
