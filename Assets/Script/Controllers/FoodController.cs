@@ -7,7 +7,7 @@ namespace Snake.Controllers
         
         public void RandomizePosition()
         {
-            transform.position = new Vector2(Random.Range(-10,10),Random.Range(-7,7));
+            transform.position = new Vector2(Random.Range(-9,9),Random.Range(-7,7));
         }
 
         private void OnTriggerEnter2D(Collider2D other)

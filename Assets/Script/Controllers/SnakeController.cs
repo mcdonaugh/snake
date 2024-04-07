@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Snake.Controllers
@@ -7,9 +8,15 @@ namespace Snake.Controllers
     {
         [SerializeField] private float _gameTickTime;
         [SerializeField] private GameObject _snakeTail;
+        [SerializeField] private int _xBounds = 9;
+        [SerializeField] private int _yBounds = 7;
         private GameObject[] _snakeTailArray;
         private Vector2 _previousHeadPosition;
         public bool _snakeIsMoving;
+        private int _tailLength;
+        private float _currentTime;
+        
+
 
         private void Awake()
         {
@@ -18,6 +25,9 @@ namespace Snake.Controllers
 
         private void Update()
         {
+            Vector3 roundedPosition = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y),Mathf.RoundToInt(transform.position.z));
+            transform.position = roundedPosition;
+
             if (Input.GetKeyDown(KeyCode.A))
             {
                 int snakeDirection = 90;
@@ -28,22 +38,39 @@ namespace Snake.Controllers
                 int snakeDirection = -90;
                 ChangeDirection(snakeDirection);
             }
+
+            BoundsCheck();
+        }
+
+        private void LateUpdate()
+        {
+            if (_currentTime > _gameTickTime)
+            {
+                Debug.Log("tick");
+                MoveHead();      
+                MoveTail();
+                _currentTime = 0;
+            }
+            _currentTime += Time.deltaTime;
         }
 
         private void GrowTail()
         {
-            for (int i = 0; i < _snakeTailArray.Length; i++)
+            for (int i = _tailLength; i < _snakeTailArray.Length; i++)
             {
                 if (_snakeTailArray[i] == null)
                 {
                     GameObject newSnakeTail = Instantiate(_snakeTail, transform.position, Quaternion.identity, transform.parent);
                     _snakeTailArray[i] = newSnakeTail;
+                    _tailLength++;
                     break;
                 }
                 else
                 {
-                    _snakeTailArray[i].SetActive(true);
-                }
+                    _snakeTailArray[_tailLength].SetActive(true);
+                    _tailLength++;
+                    break; 
+                }   
             }
         }
 
@@ -51,16 +78,16 @@ namespace Snake.Controllers
         {
             for (int i = _snakeTailArray.Length - 1; i >= 0; i--)
             {
-                if (_snakeTailArray[i] != null && i == 0)
+                if (_snakeTailArray[i] != null)
                 {
-                    _snakeTailArray[i].transform.position = _previousHeadPosition;
-                }
+                    _snakeTailArray[0].transform.position = _previousHeadPosition;
 
-                if (_snakeTailArray[i] != null && i > 0)
-                {
-                    Vector2 ParentPosition = _snakeTailArray[i-1].transform.position;
-                    _snakeTailArray[i].transform.position = ParentPosition;
-                }
+                    if (i > 0)
+                    {
+                        Vector2 ParentPosition = _snakeTailArray[i-1].transform.position;
+                        _snakeTailArray[i].transform.position = ParentPosition;
+                    } 
+                }    
             }
         }
 
@@ -73,6 +100,7 @@ namespace Snake.Controllers
                     item.SetActive(false);
                 }    
             }
+            _tailLength = 0;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -82,26 +110,40 @@ namespace Snake.Controllers
                 GrowTail();
             }
         }
-        
+
         private void MoveHead()
         {
-            _previousHeadPosition = transform.position;      
+            _previousHeadPosition = transform.position;
             transform.position += transform.right;
+        }
+
+        private void BoundsCheck()
+        {
+            if(transform.position.x == _xBounds + 1)
+            {   
+                Debug.Log("Right Bounds Hit");
+                transform.position = new Vector3(-_xBounds, transform.position.y, 0);
+            }
+            else if (transform.position.x == -_xBounds - 1)
+            {
+                Debug.Log("Left Bounds Hit");
+                transform.position = new Vector3(_xBounds, transform.position.y, 0);
+            }
+            else if(transform.position.y == _yBounds + 1)
+            {
+                Debug.Log("Top Bounds Hit");
+                transform.position = new Vector3(transform.position.x, -_yBounds, 0);
+            }
+            else if(transform.position.y == -_yBounds - 1)
+            {
+                Debug.Log("Bottom Bounds Hit");
+                transform.position = new Vector3(transform.position.x, _yBounds, 0);
+            }
         }
 
         private void ChangeDirection(int direction)
         {
-            transform.eulerAngles += new Vector3(0,0,direction);
-        }
-        
-        public IEnumerator GameTick()
-        {
-            while(_snakeIsMoving)
-            {
-                MoveHead();      
-                MoveTail();
-                yield return new WaitForSeconds(_gameTickTime);
-            }
+            transform.eulerAngles += new Vector3(0, 0, direction);
         }
         
     }    
