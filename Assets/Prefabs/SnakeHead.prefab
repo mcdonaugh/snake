@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameTickTime: 0.2
   _snakeTail: {fileID: 3361940120122194835, guid: 18b77e8b9abbf4ede8cf1409b96db4dd, type: 3}
+  _foodController: {fileID: 8688887037537533542, guid: 3cb2ad3492519492ba41a73b38b456a2, type: 3}
   _xBounds: 9
   _yBounds: 7
   _snakeIsMoving: 0

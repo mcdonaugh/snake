@@ -1,5 +1,4 @@
-using System.Collections;
-using Unity.VisualScripting;
+using Snake.Interactables;
 using UnityEngine;
 
 namespace Snake.Controllers
@@ -8,6 +7,7 @@ namespace Snake.Controllers
     {
         [SerializeField] private float _gameTickTime;
         [SerializeField] private GameObject _snakeTail;
+        [SerializeField] private FoodController _foodController;
         [SerializeField] private int _xBounds = 9;
         [SerializeField] private int _yBounds = 7;
         private GameObject[] _snakeTailArray;
@@ -15,12 +15,21 @@ namespace Snake.Controllers
         public bool _snakeIsMoving;
         private int _tailLength;
         private float _currentTime;
+        private IInteractable _interactable = null;
+        private bool _canInteract;
+        // private bool _tailCanGrow;
         
 
 
         private void Awake()
         {
             _snakeTailArray = new GameObject[315];
+        }
+
+        private void Start()
+        {
+            FoodController foodController = FindObjectOfType<FoodController>();
+            foodController.OnFoodInteracted += OnFoodInteractedHandler;
         }
 
         private void Update()
@@ -32,6 +41,10 @@ namespace Snake.Controllers
             {
                 MoveHead();      
                 MoveTail();
+                if (_canInteract)
+                {
+                    _interactable.Interact();
+                }
                 _currentTime = 0;
             }
             _currentTime += Time.deltaTime;
@@ -50,7 +63,13 @@ namespace Snake.Controllers
             BoundsCheck();
         }
 
-        private void GrowTail()
+        private void OnFoodInteractedHandler()
+        {
+            Debug.Log("On Food Action Handler Interacted");
+            GrowTail();
+        }
+
+        public void GrowTail()
         {
             for (int i = _tailLength; i < _snakeTailArray.Length; i++)
             {
@@ -101,9 +120,23 @@ namespace Snake.Controllers
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.tag == "Food")
+            if (!_canInteract)
             {
-                GrowTail();
+                _canInteract = true;
+                _interactable = other.GetComponent<IInteractable>();
+            }
+            // if (other.gameObject.tag == "Food")
+            // {
+            //     GrowTail();
+            // }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (_canInteract)
+            {
+                _canInteract = false;
+                _interactable = null;
             }
         }
 

@@ -9,8 +9,9 @@ namespace Snake.Controllers
         [SerializeField] private GameView _gameView;
         [SerializeField] private GameOverView _gameOverView;
         [SerializeField] private SpawnController _spawnController;
+        
         private bool _gameIsActive;
-        private int Score;
+        private int _score;
 
 
         private void Awake()

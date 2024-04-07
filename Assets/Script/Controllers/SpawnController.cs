@@ -1,3 +1,4 @@
+using Snake.Interactables;
 using Unity.VisualScripting;
 using UnityEngine;
 
