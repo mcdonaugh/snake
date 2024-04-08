@@ -31,6 +31,7 @@ namespace Snake.Controllers
 
         private void StartGame()
         {
+            _snakeController.OnTailIsCollided += OnTailIsCollidedActionHandler;
             _gameIsActive = true;
             _startView.gameObject.SetActive(false);
             _gameView.gameObject.SetActive(true);
@@ -57,6 +58,7 @@ namespace Snake.Controllers
             _gameView.gameObject.SetActive(false);
             _gameOverView.gameObject.SetActive(false);
             _scoreController.ResetScore();
+            _snakeController.ResetSnakePosition();
         }
 
         public void SetFoodController(FoodController foodController)
@@ -66,6 +68,11 @@ namespace Snake.Controllers
         public void SetSnakeController(SnakeController snakeController)
         {
             _snakeController = snakeController;
+        }
+
+        private void OnTailIsCollidedActionHandler()
+        {
+            EndGame();
         }
 
         private void ChangeGameState()

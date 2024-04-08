@@ -1,3 +1,4 @@
+using System;
 using Snake.Interactables;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ namespace Snake.Controllers
 {
     public class SnakeController : MonoBehaviour
     {
+        public event Action OnTailIsCollided;
         [SerializeField] private float _gameTickTime;
         [SerializeField] private GameObject _snakeTail;
         [SerializeField] private int _xBounds = 9;
@@ -12,6 +14,7 @@ namespace Snake.Controllers
         private FoodController _foodController;
         private GameObject[] _snakeTailArray;
         private Vector2 _previousHeadPosition;
+        private Vector2 _originPosition = new Vector2(0,0);
         private int _tailLength;
         private float _currentTime;
         private bool _canGrowTail;
@@ -136,7 +139,7 @@ namespace Snake.Controllers
 
             if (other.CompareTag("Tail"))
             {
-                Debug.Log("Tail Connected");
+                OnTailIsCollided?.Invoke();
             }
         }
 
@@ -144,7 +147,11 @@ namespace Snake.Controllers
         {
             _interactable = null;
         }
-
+        
+        public void ResetSnakePosition()
+        {
+            transform.position = _originPosition;
+        }
 
         private void BoundsCheck()
         {
