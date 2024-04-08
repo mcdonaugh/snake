@@ -81,10 +81,6 @@ namespace Snake.Controllers
             {
                 RestartGame();
             }
-            else if (_gameIsActive)
-            {
-                EndGame();
-            }
             else
             {
                 StartGame();
