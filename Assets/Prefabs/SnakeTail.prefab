@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 869536465218482295}
   - component: {fileID: 1066160194002155941}
-  - component: {fileID: -1963182606096068823}
+  - component: {fileID: -848912124939948691}
   m_Layer: 0
   m_Name: SnakeTail
   m_TagString: Tail
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &-1963182606096068823
+--- !u!61 &-848912124939948691
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,5 +128,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8749238, y: 0.8749238}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0

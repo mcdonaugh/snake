@@ -14,6 +14,7 @@ namespace Snake.Controllers
         private Vector2 _previousHeadPosition;
         private int _tailLength;
         private float _currentTime;
+        private bool _canGrowTail;
         private IInteractable _interactable = null;
 
         private void Awake()
@@ -33,7 +34,11 @@ namespace Snake.Controllers
 
             if (_currentTime > _gameTickTime)
             {
-                MoveHead();      
+                MoveHead(); 
+                if (_canGrowTail)
+                {
+                    GrowTail();
+                }     
                 MoveTail();
                 _currentTime = 0;
             }
@@ -55,7 +60,7 @@ namespace Snake.Controllers
         
         private void OnFoodInteractedHandler()
         {
-            GrowTail();
+            _canGrowTail= true;
         }
 
         public void SetFoodController(FoodController foodController)
@@ -79,8 +84,9 @@ namespace Snake.Controllers
                     _snakeTailArray[_tailLength].SetActive(true);
                     _tailLength++;
                     break; 
-                }   
+                } 
             }
+            _canGrowTail = false;
         }
         private void MoveHead()
         {
@@ -98,12 +104,11 @@ namespace Snake.Controllers
                     {
                         _snakeTailArray[i].transform.position = _previousHeadPosition;
                     }
-
-                    if (i > 0)
+                    else
                     {
                         Vector2 ParentPosition = _snakeTailArray[i-1].transform.position;
-                        _snakeTailArray[i].transform.position = ParentPosition;
-                    } 
+                        _snakeTailArray[i].transform.position = ParentPosition; 
+                    }
                 }    
             }
         }
