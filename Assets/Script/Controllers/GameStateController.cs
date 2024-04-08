@@ -1,3 +1,4 @@
+using Snake.Interactables;
 using Snake.Views;
 using UnityEngine;
 
@@ -8,11 +9,9 @@ namespace Snake.Controllers
         [SerializeField] private StartView _startView;
         [SerializeField] private GameView _gameView;
         [SerializeField] private GameOverView _gameOverView;
-        [SerializeField] private SpawnController _spawnController;
-        
+        private SnakeController _snakeController;
+        private FoodController _foodController;
         private bool _gameIsActive;
-        private int _score;
-
 
         private void Awake()
         {
@@ -35,8 +34,8 @@ namespace Snake.Controllers
             _startView.gameObject.SetActive(false);
             _gameView.gameObject.SetActive(true);
             _gameOverView.gameObject.SetActive(false);
-            _spawnController.SpawnFood();
-            _spawnController.SpawnSnake();
+            _snakeController.gameObject.SetActive(true);
+            _foodController.gameObject.SetActive(true);
         }
 
         private void EndGame()
@@ -45,8 +44,9 @@ namespace Snake.Controllers
             _startView.gameObject.SetActive(false);
             _gameView.gameObject.SetActive(false);
             _gameOverView.gameObject.SetActive(true);
-            _spawnController.DespawnFood();  
-            _spawnController.DespawnSnake();
+            _snakeController.gameObject.SetActive(false);
+            _snakeController.DespawnTail();
+            _foodController.gameObject.SetActive(false);
         }
 
         private void RestartGame()
@@ -54,6 +54,15 @@ namespace Snake.Controllers
             _startView.gameObject.SetActive(true);
             _gameView.gameObject.SetActive(false);
             _gameOverView.gameObject.SetActive(false);
+        }
+
+        public void SetFoodController(FoodController foodController)
+        {
+            _foodController = foodController;
+        }
+        public void SetSnakeController(SnakeController snakeController)
+        {
+            _snakeController = snakeController;
         }
 
         private void ChangeGameState()
