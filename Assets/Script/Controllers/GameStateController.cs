@@ -39,7 +39,7 @@ namespace Snake.Controllers
             _foodController.gameObject.SetActive(true);
         }
 
-        private void EndGame()
+        public void EndGame()
         {
             _gameIsActive = false;
             _startView.gameObject.SetActive(false);

@@ -12,11 +12,9 @@ namespace Snake.Controllers
         private FoodController _foodController;
         private GameObject[] _snakeTailArray;
         private Vector2 _previousHeadPosition;
-        public bool _snakeIsMoving;
         private int _tailLength;
         private float _currentTime;
         private IInteractable _interactable = null;
-        
 
         private void Awake()
         {
@@ -54,10 +52,9 @@ namespace Snake.Controllers
 
             BoundsCheck();
         }
-
+        
         private void OnFoodInteractedHandler()
         {
-            Debug.Log("On Food Action Handler Interacted");
             GrowTail();
         }
 
@@ -85,6 +82,11 @@ namespace Snake.Controllers
                 }   
             }
         }
+        private void MoveHead()
+        {
+            _previousHeadPosition = transform.position;
+            transform.position += transform.right;
+        }
 
         private void MoveTail()
         {
@@ -92,7 +94,10 @@ namespace Snake.Controllers
             {
                 if (_snakeTailArray[i] != null)
                 {
-                    _snakeTailArray[0].transform.position = _previousHeadPosition;
+                    if (i == 0)
+                    {
+                        _snakeTailArray[i].transform.position = _previousHeadPosition;
+                    }
 
                     if (i > 0)
                     {
@@ -123,6 +128,11 @@ namespace Snake.Controllers
             {
                 _interactable.Interact(); 
             }
+
+            if (other.CompareTag("Tail"))
+            {
+                Debug.Log("Tail Connected");
+            }
         }
 
         private void OnTriggerExit2D(Collider2D other)
@@ -130,11 +140,6 @@ namespace Snake.Controllers
             _interactable = null;
         }
 
-        private void MoveHead()
-        {
-            _previousHeadPosition = transform.position;
-            transform.position += transform.right;
-        }
 
         private void BoundsCheck()
         {
