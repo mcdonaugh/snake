@@ -8,6 +8,7 @@ namespace Snake.Controllers
         [SerializeField] private FoodController _foodController;
         [SerializeField] private SnakeController _snakeController;
         [SerializeField] private GameStateController _gameStateController;
+        [SerializeField] private ScoreController _scoreController;
 
         private void Awake()
         {
@@ -16,6 +17,7 @@ namespace Snake.Controllers
 
             snakeController.SetFoodController(foodController);
             _gameStateController.SetFoodController(foodController);
+            _scoreController.SetFoodController(foodController);
             _gameStateController.SetSnakeController(snakeController);
 
             foodController.gameObject.SetActive(false); 
